@@ -10,9 +10,11 @@ class Vertex(object):
     def __init__(self, vertex):
         """initialize a vertex and its neighbors
 
+        id: some way to identify the vertex
         neighbors: set of vertices adjacent to self,
-        stored in a dictionary with key = vertex,
-        value = weight of edge between self and neighbor.
+        stored in a dictionary with
+            key = vertex
+            value = weight of edge between self and neighbor.
         """
         self.id = vertex
         self.neighbors = {}
@@ -24,8 +26,10 @@ class Vertex(object):
 
     def __str__(self):
         """output the list of neighbors of this vertex"""
-        return str(self.id) + " adjancent to " +
-        str([x.id for x in self.neighbors])
+        # possible refactor
+        # return "{} adjancent to {}".format(self.id, [x.id for x in self.neighbors])
+        return str(self.id) + " adjancent to " + \
+            str([x.id for x in self.neighbors])
 
     def getNeighbors(self):
         """return the neighbors of this vertex"""
@@ -37,13 +41,11 @@ class Vertex(object):
 
     def getEdgeWeight(self, vertex):
         """return the weight of this edge"""
-        # TODO return the weight of the edge from this
-        vertext to the given vertex.
+        # TODO return the weight of the edge from this vertext to the given vertex.
 
 
 """ Graph Class
-A class demonstrating the essential
-facts and functionalities of graphs.
+A class demonstrating the essential facts and functionalities of graphs.
 """
 
 
@@ -89,12 +91,9 @@ class Graph:
 
 
 # Driver code
-
-
 if __name__ == "__main__":
 
     # Challenge 1: Create the graph
-
     g = Graph()
 
     # Add your friends
