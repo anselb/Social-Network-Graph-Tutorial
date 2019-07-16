@@ -19,6 +19,10 @@ class Vertex(object):
         self.id = vertex
         self.neighbors = {}
 
+    def __repr__(self):
+        """return representation of vertex object"""
+        return "Vertex({}) with neighbors {}".format(self.id, self.get_neighbors)
+
     def __str__(self):
         """output the list of neighbors of this vertex"""
         # possible refactor
