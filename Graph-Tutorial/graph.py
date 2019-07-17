@@ -32,8 +32,10 @@ class Vertex(object):
 
     def add_neighbor(self, vertex, weight=0):
         """add a neighbor along a weighted edge"""
-        # TODO check if vertex is already a neighbot
-        # TODO if not, add vertex to neighbors and assign weight.
+        # check if vertex is already a neighbor
+        if vertex not in self.neighbors:
+            # if not, add vertex to neighbors and assign weight.
+            self.neighbors[vertex] = weight
 
     def get_neighbors(self):
         """return the neighbors of this vertex"""
