@@ -27,6 +27,18 @@ class Vertex(object):
         """Output the list of neighbors of this vertex."""
         return f"{self.id} adjacent to {[x.id for x in self.neighbors]}"
 
+    def __hash__(self):
+        """Return hash of vertex class, for using this class as a dict key."""
+        return hash(self.id)
+
+    def __eq__(self, other):
+        """Determine if two vertices are equal."""
+        return self.id == other.id
+
+    def __ne__(self, other):
+        """Determine if two vertices are not equal."""
+        return self.id != other.id
+
     def add_neighbor(self, vertex, weight=1):
         """Add a neighbor along a weighted edge."""
         # check if vertex is already a neighbor
