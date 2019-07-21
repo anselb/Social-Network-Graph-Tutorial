@@ -1,7 +1,9 @@
 #!python
 
+
 class Vertex(object):
-    """ Vertex Class
+    """Vertex Class
+
     A helper class for the Graph class that defines vertices and vertex
     neighbors.
     """
@@ -10,16 +12,15 @@ class Vertex(object):
         """Initialize a vertex and its neighbors.
 
         id: a number or string to identify the vertex
-        neighbors: set of vertices adjacent to self,
-        stored in a dictionary with
+        neighbors: set of vertices adjacent to self, stored in dictionary with:
             key = vertex
-            value = weight of edge between self and neighbor.
+            value = weight of edge between self and neighbor
         """
         self.id = vertex_id
         self.neighbors = {}
 
     def __repr__(self):
-        """return representation of vertex object"""
+        """Return representation of vertex object."""
         return f"Vertex({self.id}) with neighbors {self.get_neighbors}"
 
     def __str__(self):
@@ -30,21 +31,23 @@ class Vertex(object):
         """Add a neighbor along a weighted edge."""
         # check if vertex is already a neighbor
         if vertex not in self.neighbors:
-            # if not, add vertex to neighbors and assign weight.
+            # if not, add vertex to neighbors and assign weight
             self.neighbors[vertex] = weight
 
     def get_neighbors(self):
         """Return the neighbors of this vertex."""
-        # TODO return the neighbors
+        # return the neighbors
+        return self.neighbors.keys()
 
     def get_id(self):
         """Return the id of this vertex."""
+        # return the id of the vertex
         return self.id
 
     def get_edge_weight(self, vertex):
         """Return the weight of this edge."""
-        # TODO return the weight of the edge from this
-        # vertex to the given vertex.
+        # return the weight of the edge from this vertex to the given vertex
+        return self.neighbors[vertex]
 
 
 class Graph:
