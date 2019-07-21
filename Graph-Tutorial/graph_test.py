@@ -79,44 +79,46 @@ class VertexTest(unittest.TestCase):
         v2.add_neighbor(v3, 3)
         assert v2.get_edge_weight(v3) == 3
 
+
 class GraphTest(unittest.TestCase):
 
     def test_init(self):
         g = Graph()
-        assert g.size == 0
+        self.assertDictEqual(g.vert_list, {})
+        assert g.num_vertices == 0
 
     def test_num_vertices(self):
         g = Graph()
 
-        # size should increase when a vertex is added
-        assert g.size == 0
+        # Size should increase when a vertex is added
+        assert g.num_vertices == 0
         g.add_vertex('A')
-        assert g.size == 1
+        assert g.num_vertices == 1
         g.add_vertex('B')
-        assert g.size == 2
+        assert g.num_vertices == 2
         g.add_vertex('C')
-        assert g.size == 3
+        assert g.num_vertices == 3
 
-        # size should increase once when an edge is added with a new vertex
+        # Size should increase once when an edge is added with a new vertex
         g.add_edge('A', 'B')
-        assert g.size == 3
+        assert g.num_vertices == 3
         g.add_edge('B', 'C')
-        assert g.size == 3
+        assert g.num_vertices == 3
         g.add_edge('C', 'D')
-        assert g.size == 4
+        assert g.num_vertices == 4
 
-        # size should increase twice when an edge is added with two new vertices
+        # Size should increase twice when edge is added with two new vertices
         g.add_edge('E', 'F')
-        assert g.size == 6
+        assert g.num_vertices == 6
 
-        # error should be raised when a vertex, that already exists, is added
-        # size should not change when error is raised
+        # Error should be raised when a vertex, that already exists, is added
+        # Size should not change when error is raised
         with self.assertRaises(KeyError):
             g.add_vertex('B')  # Vertex already exists
-        assert g.size == 6
+        assert g.num_vertices == 6
         with self.assertRaises(KeyError):
             g.add_vertex('D')  # Vertex already exists
-        assert g.size == 6
+        assert g.num_vertices == 6
 
     def test_add_vertex(self):
         g = Graph()
