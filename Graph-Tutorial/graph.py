@@ -124,7 +124,6 @@ class Graph:
         # when both vertices in graph, make from_vert a neighbor of to_vert
         if to_vert not in from_vert.get_neighbors():
             from_vert.add_neighbor(to_vert, weight)
-            to_vert.add_neighbor(from_vert, weight)
 
     def get_vertices(self):
         """Return all the vertices in the graph."""
@@ -138,11 +137,16 @@ if __name__ == "__main__":
     g = Graph()
 
     # Add your friends
+    g.add_vertex("Myself")
     g.add_vertex("Friend 1")
     g.add_vertex("Friend 2")
     g.add_vertex("Friend 3")
-
-    # ...  add all 10 including you ...
+    g.add_vertex("Friend 4")
+    g.add_vertex("Friend 5")
+    g.add_vertex("Friend 6")
+    g.add_vertex("Friend 7")
+    g.add_vertex("Friend 8")
+    g.add_vertex("Friend 9")
 
     # Add connections (non weighted edges for now)
     g.add_edge("Friend 1", "Friend 2")
