@@ -91,8 +91,12 @@ class Graph:
         return new_vertex
 
     def get_vertex(self, key):
-        """Return the vertex if it exists."""
-        # TODO return the vertex if it is in the graph
+        """Return the vertex if it exists, else raise KeyError."""
+        # raise error if key does not exist in graph
+        if key not in self.vert_list:
+            raise KeyError(f"{key} is not in the Graph")
+        # return the vertex if it is in the graph
+        return self.vert_list[key]
 
     def add_edge(self, key1, key2, weight=1):
         """Add an edge from vertex with key `key1` to vertex with key `key2`.
