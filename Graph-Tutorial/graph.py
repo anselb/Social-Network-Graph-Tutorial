@@ -128,7 +128,7 @@ class Graph:
 
     def get_vertices(self):
         """Return all the vertices in the graph."""
-        return self.vert_list.keys()
+        return set(self.vert_list.values())
 
 
 # Driver code
