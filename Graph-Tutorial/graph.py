@@ -62,7 +62,13 @@ class Graph:
     """Demonstrates the essential facts and functionalities of graphs."""
 
     def __init__(self):
-        """Initialize a graph object with an empty dictionary."""
+        """Initialize a graph object with an empty dictionary.
+
+        vert_list: a dictionary of the vertices in this graph where:
+            key = the id of a vertex
+            value = a vertex object with an id that matches the key
+        num_vertices: number of vertices in the graph
+        """
         self.vert_list = {}
         self.num_vertices = 0
 
