@@ -78,10 +78,17 @@ class Graph:
 
         Return the vertex if the vertex is new, else raise KeyError.
         """
-        # TODO increment the number of vertices
-        # TODO create a new vertex
-        # TODO add the new vertex to the vertex list
-        # TODO return the new vertex
+        # raise error if key already exists in graph
+        if key in self.vert_list:
+            raise KeyError(f"{key} is already in the Graph")
+        # increment the number of vertices
+        self.num_vertices += 1
+        # create a new vertex
+        new_vertex = Vertex(key)
+        # add the new vertex to the vertex list
+        self.vert_list[key] = new_vertex
+        # return the new vertex
+        return new_vertex
 
     def get_vertex(self, key):
         """Return the vertex if it exists."""
