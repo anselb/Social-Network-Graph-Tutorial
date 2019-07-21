@@ -37,26 +37,26 @@ class Vertex(object):
 
     def add_neighbor(self, vertex, weight=1):
         """Add a neighbor along a weighted edge."""
-        # check if vertex is already a neighbor
+        # Check if vertex is already a neighbor
         if vertex in self.neighbors:
-            # if so, raise KeyError
+            # If so, raise KeyError
             raise KeyError(f"{vertex.id} is already a neighbor of {self.id}")
-        # if not, add vertex to neighbors and assign weight
+        # If not, add vertex to neighbors and assign weight
         self.neighbors[vertex] = weight
 
     def get_neighbors(self):
         """Return the neighbors of this vertex."""
-        # return the neighbors
+        # Return the neighbors
         return set(self.neighbors.keys())
 
     def get_id(self):
         """Return the id of this vertex."""
-        # return the id of the vertex
+        # Return the id of the vertex
         return self.id
 
     def get_edge_weight(self, vertex):
         """Return the weight of this edge."""
-        # return the weight of the edge from this vertex to the given vertex
+        # Return the weight of the edge from this vertex to the given vertex
         return self.neighbors[vertex]
 
 
@@ -86,24 +86,24 @@ class Graph:
 
         Return the vertex if the vertex is new, else raise KeyError.
         """
-        # raise error if key already exists in graph
+        # Raise error if key already exists in graph
         if key in self.vert_list:
             raise KeyError(f"{key} is already in the Graph")
-        # increment the number of vertices
+        # Increment the number of vertices
         self.num_vertices += 1
-        # create a new vertex
+        # Create a new vertex
         new_vertex = Vertex(key)
-        # add the new vertex to the vertex list
+        # Add the new vertex to the vertex list
         self.vert_list[key] = new_vertex
-        # return the new vertex
+        # Return the new vertex
         return new_vertex
 
     def get_vertex(self, key):
         """Return the vertex if it exists, else raise KeyError."""
-        # raise error if key does not exist in graph
+        # Raise error if key does not exist in graph
         if key not in self.vert_list:
             raise KeyError(f"{key} is not in the Graph")
-        # return the vertex if it is in the graph
+        # Return the vertex if it is in the graph
         return self.vert_list[key]
 
     def add_edge(self, from_key, to_key, weight=1):
@@ -111,19 +111,19 @@ class Graph:
 
         If a weight is provided, use that weight.
         """
-        # add from_key vertex if it is not in the graph
+        # Add from_key vertex if it is not in the graph
         if from_key not in self.vert_list:
             self.add_vertex(from_key)
 
-        # add to_key vertex if it is not in the graph
+        # Add to_key vertex if it is not in the graph
         if to_key not in self.vert_list:
             self.add_vertex(to_key)
 
-        # get vertices from keys
+        # Get vertices from keys
         from_vert = self.vert_list[from_key]
         to_vert = self.vert_list[to_key]
 
-        # when both vertices in graph, make from_vert a neighbor of to_vert
+        # When both vertices in graph, make from_vert a neighbor of to_vert
         from_vert.add_neighbor(to_vert, weight)
 
     def get_vertices(self):
