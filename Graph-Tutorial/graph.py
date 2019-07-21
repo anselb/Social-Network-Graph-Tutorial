@@ -9,7 +9,7 @@ class Vertex(object):
 
         id: a number or string to identify the vertex
         neighbors: set of vertices adjacent to self, stored in dictionary with:
-            key = vertex
+            key = vertex object
             value = weight of edge between self and neighbor
         """
         self.id = vertex_id
@@ -45,7 +45,7 @@ class Vertex(object):
     def get_neighbors(self):
         """Return the neighbors of this vertex."""
         # return the neighbors
-        return self.neighbors.keys()
+        return set(self.neighbors.keys())
 
     def get_id(self):
         """Return the id of this vertex."""
@@ -98,18 +98,27 @@ class Graph:
         # return the vertex if it is in the graph
         return self.vert_list[key]
 
-    def add_edge(self, key1, key2, weight=1):
-        """Add an edge from vertex with key `key1` to vertex with key `key2`.
+    def add_edge(self, from_key, to_key, weight=1):
+        """Add edge from vertex with key `from_key` to vertex with key `to_key`.
 
         If a weight is provided, use that weight.
         """
-        # TODO if either vertex is not in the graph,
-        # add it - or return an error (choice is up to you).
-        # TODO if both vertices in the graph, add the
-        # edge by making key1 a neighbor of key2
-        # and using the add_neighbor method of the Vertex class.
-        # Hint: the vertex corresponding to key1 is stored in
-        # self.vert_list[key1].
+        # add from_key vertex if it is not in the graph
+        if from_key not in self.vert_list:
+            self.add_vertex(from_key)
+
+        # add to_key vertex if it is not in the graph
+        if to_key not in self.vert_list:
+            self.add_vertex(to_key)
+
+        # get vertices from keys
+        from_vert = self.vert_list[from_key]
+        to_vert = self.vert_list[to_key]
+
+        # when both vertices in graph, make from_vert a neighbor of to_vert
+        if to_vert not in from_vert.get_neighbors():
+            from_vert.add_neighbor(to_vert, weight)
+            to_vert.add_neighbor(from_vert, weight)
 
     def get_vertices(self):
         """Return all the vertices in the graph."""
