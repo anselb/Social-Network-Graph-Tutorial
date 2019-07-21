@@ -17,7 +17,7 @@ class Vertex(object):
 
     def __repr__(self):
         """Return representation of vertex object."""
-        return f"Vertex({self.id}) with neighbors {self.get_neighbors}"
+        return f"Vertex({self.id})"
 
     def __str__(self):
         """Output the list of neighbors of this vertex."""
