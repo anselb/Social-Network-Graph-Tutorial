@@ -121,22 +121,21 @@ class GraphTest(unittest.TestCase):
         assert g.num_vertices == 6
 
     def test_add_vertex(self):
-        # TODO: Check these tests
         g = Graph()
 
-        # graph should have newly added vertex
+        # Graph should have newly added vertex
         assert g.num_vertices == 0
-        g.add_vertex('A')
+        v_a = g.add_vertex('A')
         assert g.num_vertices == 1
-        assert g.has_vertex('A') is True
-        g.add_vertex('B')
+        assert g.get_vertex('A') == v_a
+        v_b = g.add_vertex('B')
         assert g.num_vertices == 2
-        assert g.has_vertex('B') is True
-        g.add_vertex('C')
+        assert g.get_vertex('B') == v_b
+        v_c = g.add_vertex('C')
         assert g.num_vertices == 3
-        assert g.has_vertex('C') is True
+        assert g.get_vertex('C') == v_c
 
-        # error should be raised when a vertex, that already exists, is added
+        # Error should be raised when a vertex, that already exists, is added
         with self.assertRaises(KeyError):
             g.add_vertex('A')  # Vertex already exists
         with self.assertRaises(KeyError):
@@ -145,8 +144,23 @@ class GraphTest(unittest.TestCase):
             g.add_vertex('C')  # Vertex already exists
 
     def test_get_vertex(self):
-        # TODO: Check these tests
-        pass
+        g = Graph()
+
+        # Error should be raised when getting a vertex that does not exist
+        with self.assertRaises(KeyError):
+            g.get_vertex(1)  # Vertex does not exist
+        with self.assertRaises(KeyError):
+            g.get_vertex(2)  # Vertex does not exist
+        with self.assertRaises(KeyError):
+            g.get_vertex(3)  # Vertex does not exist
+
+        # Graph should be able to get existing vertices
+        v1 = g.add_vertex(1)
+        assert g.get_vertex(1) == v1
+        v2 = g.add_vertex(2)
+        assert g.get_vertex(2) == v2
+        v3 = g.add_vertex(3)
+        assert g.get_vertex(3) == v3
 
     def test_add_edge(self):
         # TODO: Check these tests
