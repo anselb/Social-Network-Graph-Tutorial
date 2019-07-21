@@ -2,11 +2,7 @@
 
 
 class Vertex(object):
-    """Vertex Class
-
-    A helper class for the Graph class that defines vertices and vertex
-    neighbors.
-    """
+    """Helper class that defines vertices and vertex neighbors."""
 
     def __init__(self, vertex_id):
         """Initialize a vertex and its neighbors.
@@ -63,34 +59,39 @@ class Vertex(object):
 
 
 class Graph:
-    """ Graph Class
-    A class demonstrating the essential facts and functionalities of graphs.
-    """
+    """Demonstrates the essential facts and functionalities of graphs."""
+
     def __init__(self):
         """Initialize a graph object with an empty dictionary."""
         self.vert_list = {}
         self.num_vertices = 0
 
     def __iter__(self):
-        """Iterate over the vertex objects in the graph, to use sytax:
-        for v in g"""
+        """Iterate over the vertex objects in the graph.
+
+        to use sytax: for v in g
+        """
         return iter(self.vert_list.values())
 
     def add_vertex(self, key):
-        """Add a new vertex object to the graph with the given key and return
-        the vertex."""
+        """Add a new vertex object to the graph with the given key.
+
+        Return the vertex if the vertex is new, else raise KeyError.
+        """
         # TODO increment the number of vertices
         # TODO create a new vertex
         # TODO add the new vertex to the vertex list
         # TODO return the new vertex
 
     def get_vertex(self, key):
-        """Return the vertex if it exists"""
+        """Return the vertex if it exists."""
         # TODO return the vertex if it is in the graph
 
     def add_edge(self, key1, key2, weight=1):
-        """Add an edge from vertex with key `key1` to vertex with key `key2`
-        with a weight."""
+        """Add an edge from vertex with key `key1` to vertex with key `key2`.
+
+        If a weight is provided, use that weight.
+        """
         # TODO if either vertex is not in the graph,
         # add it - or return an error (choice is up to you).
         # TODO if both vertices in the graph, add the
@@ -100,7 +101,7 @@ class Graph:
         # self.vert_list[key1].
 
     def get_vertices(self):
-        """Return all the vertices in the graph"""
+        """Return all the vertices in the graph."""
         return self.vert_list.keys()
 
 
