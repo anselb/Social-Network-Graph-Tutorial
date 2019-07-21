@@ -90,7 +90,7 @@ class GraphTest(unittest.TestCase):
     def test_num_vertices(self):
         g = Graph()
 
-        # Size should increase when a vertex is added
+        # Test num_vertices increase when a vertex is added
         assert g.num_vertices == 0
         g.add_vertex('A')
         assert g.num_vertices == 1
@@ -99,7 +99,7 @@ class GraphTest(unittest.TestCase):
         g.add_vertex('C')
         assert g.num_vertices == 3
 
-        # Size should increase once when an edge is added with a new vertex
+        # Test num_vertices +1 increase when edge is added with new vertex
         g.add_edge('A', 'B')
         assert g.num_vertices == 3
         g.add_edge('B', 'C')
@@ -107,12 +107,12 @@ class GraphTest(unittest.TestCase):
         g.add_edge('C', 'D')
         assert g.num_vertices == 4
 
-        # Size should increase twice when edge is added with two new vertices
+        # Test num_vertices +2 increase when edge added with two new vertices
         g.add_edge('E', 'F')
         assert g.num_vertices == 6
 
         # Error should be raised when a vertex, that already exists, is added
-        # Size should not change when error is raised
+        # Test num_vertices not changing when error is raised
         with self.assertRaises(KeyError):
             g.add_vertex('B')  # Vertex already exists
         assert g.num_vertices == 6
@@ -121,18 +121,19 @@ class GraphTest(unittest.TestCase):
         assert g.num_vertices == 6
 
     def test_add_vertex(self):
+        # TODO: Check these tests
         g = Graph()
 
         # graph should have newly added vertex
-        assert g.size == 0
+        assert g.num_vertices == 0
         g.add_vertex('A')
-        assert g.size == 1
+        assert g.num_vertices == 1
         assert g.has_vertex('A') is True
         g.add_vertex('B')
-        assert g.size == 2
+        assert g.num_vertices == 2
         assert g.has_vertex('B') is True
         g.add_vertex('C')
-        assert g.size == 3
+        assert g.num_vertices == 3
         assert g.has_vertex('C') is True
 
         # error should be raised when a vertex, that already exists, is added
@@ -144,9 +145,11 @@ class GraphTest(unittest.TestCase):
             g.add_vertex('C')  # Vertex already exists
 
     def test_get_vertex(self):
+        # TODO: Check these tests
         pass
 
     def test_add_edge(self):
+        # TODO: Check these tests
         g = Graph()
 
         # start with graph that already has vertices in it
@@ -156,7 +159,7 @@ class GraphTest(unittest.TestCase):
         assert g.has_vertex('B') is True
         g.add_vertex('C')
         assert g.has_vertex('C') is True
-        assert g.size == 3
+        assert g.num_vertices == 3
 
         # when edge is added with existing vertices, second vertex should be a neighbor of first vertex
         g.add_edge('A', 'B')
@@ -187,6 +190,7 @@ class GraphTest(unittest.TestCase):
         self.assertCountEqual(g.get_neighbors('F'), [])
 
     def test_get_vertices(self):
+        # TODO: Check these tests
         g = Graph()
 
         # get_vertices should return all vertices added by add_vertex
