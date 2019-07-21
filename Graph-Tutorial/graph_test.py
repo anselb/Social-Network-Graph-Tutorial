@@ -163,66 +163,74 @@ class GraphTest(unittest.TestCase):
         assert g.get_vertex(3) == v3
 
     def test_add_edge(self):
-        # TODO: Check these tests
         g = Graph()
 
-        # start with graph that already has vertices in it
-        g.add_vertex('A')
-        assert g.has_vertex('A') is True
-        g.add_vertex('B')
-        assert g.has_vertex('B') is True
-        g.add_vertex('C')
-        assert g.has_vertex('C') is True
+        # Start with graph that already has vertices in it
+        v_a = g.add_vertex('A')
+        assert g.get_vertex('A') == v_a
+        v_b = g.add_vertex('B')
+        assert g.get_vertex('B') == v_b
+        v_c = g.add_vertex('C')
+        assert g.get_vertex('C') == v_c
         assert g.num_vertices == 3
 
-        # when edge is added with existing vertices, second vertex should be a neighbor of first vertex
+        # When edge is added with existing vertices,
+        # second vertex should be a neighbor of first vertex
         g.add_edge('A', 'B')
-        self.assertCountEqual(g.get_neighbors('A'), ['B'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('B'), [])
+        self.assertCountEqual(v_a.get_neighbors(), [v_b])
+        self.assertCountEqual(v_b.get_neighbors(), [])
         g.add_edge('A', 'C')
-        self.assertCountEqual(g.get_neighbors('A'), ['B', 'C'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('C'), [])
+        self.assertCountEqual(v_a.get_neighbors(), [v_b, v_c])
+        self.assertCountEqual(v_c.get_neighbors(), [])
         g.add_edge('B', 'C')
-        self.assertCountEqual(g.get_neighbors('B'), ['C'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('C'), [])
+        self.assertCountEqual(v_b.get_neighbors(), [v_c])
+        self.assertCountEqual(v_c.get_neighbors(), [])
 
-        # when edge is added with nonexistent vertices, add nonexistent vertices
-        # then, second vertex should be a neighbor of first vertex
+        # When edge added with nonexistent vertices, add nonexistent vertices
+        # Then, second vertex should be a neighbor of first vertex
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        v_f = g.add_vertex('F')
         g.add_edge('B', 'D')
-        self.assertCountEqual(g.get_neighbors('B'), ['C', 'D'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('D'), [])
+        self.assertCountEqual(v_b.get_neighbors(), [v_c, v_d])
+        self.assertCountEqual(v_d.get_neighbors(), [])
         g.add_edge('E', 'F')
-        self.assertCountEqual(g.get_neighbors('E'), ['F'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('F'), [])
+        self.assertCountEqual(v_e.get_neighbors(), [v_f])
+        self.assertCountEqual(v_f.get_neighbors(), [])
 
-        # when duplicate edge is added, the duplicate edge should be ignored
-        g.add_edge('A', 'C')
-        self.assertCountEqual(g.get_neighbors('A'), ['B', 'C'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('C'), [])
-        g.add_edge('E', 'F')
-        self.assertCountEqual(g.get_neighbors('E'), ['F'])  # Item order does not matter
-        self.assertCountEqual(g.get_neighbors('F'), [])
+        # When duplicate edge is added, KeyError should be raised
+        with self.assertRaises(KeyError):
+            g.add_edge('A', 'C')
+        self.assertCountEqual(v_a.get_neighbors(), [v_b, v_c])
+        self.assertCountEqual(v_c.get_neighbors(), [])
+        with self.assertRaises(KeyError):
+            g.add_edge('E', 'F')
+        self.assertCountEqual(v_e.get_neighbors(), [v_f])
+        self.assertCountEqual(v_f.get_neighbors(), [])
+
+        # Test that edge has weight
+        assert v_a.get_edge_weight(v_b) == 1
+        assert v_e.get_edge_weight(v_f) == 1
+        v_g = g.add_vertex('G')
+        v_h = g.add_vertex('H')
+        g.add_edge('G', 'H', 5)
+        assert v_g.get_edge_weight(v_h) == 5
+
 
     def test_get_vertices(self):
-        # TODO: Check these tests
-        g = Graph()
+        # Test getting alphabetical vertices
+        g_letters = Graph()
+        v_a = g_letters.add_vertex('A')
+        v_b = g_letters.add_vertex('B')
+        v_c = g_letters.add_vertex('C')
+        self.assertCountEqual(g_letters.get_vertices(), [v_a, v_b, v_c])
 
-        # get_vertices should return all vertices added by add_vertex
-        assert g.has_vertex('A') is False
-        g.add_vertex('A')
-        self.assertCountEqual(g.get_vertices(), ['A'])  # Item order does not matter
-        assert g.has_vertex('B') is False
-        g.add_vertex('B')
-        self.assertCountEqual(g.get_vertices(), ['A', 'B'])  # Item order does not matter
-        assert g.has_vertex('C') is False
-        g.add_vertex('C')
-        self.assertCountEqual(g.get_vertices(), ['A', 'B', 'C'])  # Item order does not matter
-
-        # get_vertices should return all vertices added by add_edge
-        assert g.has_vertex('D') is False
-        assert g.has_vertex('E') is False
-        g.add_edge('D', 'E')
-        self.assertCountEqual(g.get_vertices(), ['A', 'B', 'C', 'D', 'E'])  # Item order does not matter
+        # Test getting numberical vertices
+        g_numbers = Graph()
+        v1 = g_numbers.add_vertex(1)
+        v2 = g_numbers.add_vertex(2)
+        v3 = g_numbers.add_vertex(3)
+        self.assertCountEqual(g_numbers.get_vertices(), [v1, v2, v3])
 
 
 if __name__ == '__main__':
