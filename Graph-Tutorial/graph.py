@@ -133,7 +133,7 @@ class Graph:
 # Driver code
 if __name__ == "__main__":
 
-    # Challenge 1: Create the graph
+    # Challenge 1: Create the graph and output the vertices & edges
     g = Graph()
 
     # Add your friends
@@ -149,10 +149,58 @@ if __name__ == "__main__":
     g.add_vertex("Friend 9")
 
     # Add connections (non weighted edges for now)
-    g.add_edge("Friend 1", "Friend 2")
-    g.add_edge("Friend 2", "Friend 3")
+    g.add_edge("Myself", "Friend 1")
+    g.add_edge("Myself", "Friend 2")
+    g.add_edge("Myself", "Friend 3")
+    g.add_edge("Myself", "Friend 4")
+    g.add_edge("Myself", "Friend 5")
+    g.add_edge("Myself", "Friend 6")
+    g.add_edge("Myself", "Friend 7")
+    g.add_edge("Myself", "Friend 8")
+    g.add_edge("Myself", "Friend 9")
 
-    # Challenge 1: Output the vertices & edges
+    g.add_edge("Friend 1", "Friend 9")
+    g.add_edge("Friend 1", "Myself")
+    g.add_edge("Friend 1", "Friend 3")
+
+    g.add_edge("Friend 2", "Friend 8")
+    g.add_edge("Friend 2", "Friend 7")
+    g.add_edge("Friend 2", "Myself")
+    g.add_edge("Friend 2", "Friend 5")
+
+    g.add_edge("Friend 3", "Friend 1")
+    g.add_edge("Friend 3", "Myself")
+
+    g.add_edge("Friend 4", "Myself")
+    g.add_edge("Friend 4", "Friend 7")
+    g.add_edge("Friend 4", "Friend 6")
+    g.add_edge("Friend 4", "Friend 5")
+
+    g.add_edge("Friend 5", "Friend 4")
+    g.add_edge("Friend 5", "Friend 2")
+    g.add_edge("Friend 5", "Myself")
+    g.add_edge("Friend 5", "Friend 9")
+    g.add_edge("Friend 5", "Friend 6")
+
+    g.add_edge("Friend 6", "Friend 5")
+    g.add_edge("Friend 6", "Friend 4")
+    g.add_edge("Friend 6", "Myself")
+    g.add_edge("Friend 6", "Friend 7")
+
+    g.add_edge("Friend 7", "Friend 6")
+    g.add_edge("Friend 7", "Friend 4")
+    g.add_edge("Friend 7", "Myself")
+    g.add_edge("Friend 7", "Friend 2")
+    g.add_edge("Friend 7", "Friend 9")
+
+    g.add_edge("Friend 8", "Myself")
+    g.add_edge("Friend 8", "Friend 2")
+
+    g.add_edge("Friend 9", "Friend 7")
+    g.add_edge("Friend 9", "Friend 5")
+    g.add_edge("Friend 9", "Myself")
+    g.add_edge("Friend 9", "Friend 1")
+
     # Print vertices
     print(f"The vertices are: {g.get_vertices()} \n")
 
