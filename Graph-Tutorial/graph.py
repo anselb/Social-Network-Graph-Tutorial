@@ -38,9 +38,11 @@ class Vertex(object):
     def add_neighbor(self, vertex, weight=1):
         """Add a neighbor along a weighted edge."""
         # check if vertex is already a neighbor
-        if vertex not in self.neighbors:
-            # if not, add vertex to neighbors and assign weight
-            self.neighbors[vertex] = weight
+        if vertex in self.neighbors:
+            # if so, raise KeyError
+            raise KeyError(f"{vertex.id} is already a neighbor of {self.id}")
+        # if not, add vertex to neighbors and assign weight
+        self.neighbors[vertex] = weight
 
     def get_neighbors(self):
         """Return the neighbors of this vertex."""
@@ -122,8 +124,7 @@ class Graph:
         to_vert = self.vert_list[to_key]
 
         # when both vertices in graph, make from_vert a neighbor of to_vert
-        if to_vert not in from_vert.get_neighbors():
-            from_vert.add_neighbor(to_vert, weight)
+        from_vert.add_neighbor(to_vert, weight)
 
     def get_vertices(self):
         """Return all the vertices in the graph."""
