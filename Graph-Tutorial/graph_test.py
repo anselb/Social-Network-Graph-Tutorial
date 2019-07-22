@@ -216,7 +216,6 @@ class GraphTest(unittest.TestCase):
         g.add_edge('G', 'H', 5)
         assert v_g.get_edge_weight(v_h) == 5
 
-
     def test_get_vertices(self):
         # Test getting alphabetical vertices
         g_letters = Graph()
@@ -231,6 +230,86 @@ class GraphTest(unittest.TestCase):
         v2 = g_numbers.add_vertex(2)
         v3 = g_numbers.add_vertex(3)
         self.assertCountEqual(g_numbers.get_vertices(), [v1, v2, v3])
+
+    def test_breadth_first_search(self):
+        # Create graph with 4 levels
+        g = Graph()
+        # Add vertices that can be seen at mulitple levels
+        v_a = g.add_vertex('A')
+        v_b = g.add_vertex('B')
+        v_c = g.add_vertex('C')
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        v_f = g.add_vertex('F')
+        v_g = g.add_vertex('G')
+        v_h = g.add_vertex('H')
+        v_i = g.add_vertex('I')
+        v_j = g.add_vertex('J')
+        # Create edges
+        g.add_edge("A", "B")
+        g.add_edge("A", "C")
+        g.add_edge("B", "A")
+        g.add_edge("B", "E")
+        g.add_edge("C", "D")
+        g.add_edge("D", "F")
+        g.add_edge("E", "H")
+        g.add_edge("F", "G")
+        g.add_edge("G", "H")
+        g.add_edge("H", "I")
+        g.add_edge("H", "J")
+        g.add_edge("H", "G")
+        g.add_edge("J", "B")
+
+        # Get all vertices accessible at level 1
+        level_1 = g.breadth_first_search(v_a, 1)
+        self.assertCountEqual(level_1, [v_b, v_c])
+        # Get all vertices accessible at level 2
+        level_2 = g.breadth_first_search(v_a, 2)
+        self.assertCountEqual(level_2, [v_a, v_d, v_e])
+        # Get all vertices accessible at level 3
+        level_3 = g.breadth_first_search(v_a, 3)
+        self.assertCountEqual(level_3, [v_b, v_c, v_f, v_h])
+        # Get all vertices accessible at level 4
+        level_4 = g.breadth_first_search(v_a, 4)
+        self.assertCountEqual(level_4, [v_a, v_d, v_e, v_g, v_i, v_j])
+        # Get all vertices accessible at level 5
+        level_5 = g.breadth_first_search(v_a, 5)
+        self.assertCountEqual(level_5, [v_b, v_c, v_f, v_h])
+
+        # Get new vertices accessible at level 1
+        new_level_1 = g.breadth_first_search(v_a, 1, only_new=True)
+        self.assertCountEqual(new_level_1, [v_b, v_c])
+        # Get new vertices accessible at level 2
+        new_level_2 = g.breadth_first_search(v_a, 2, only_new=True)
+        self.assertCountEqual(new_level_2, [v_d, v_e])
+        # Get new vertices accessible at level 3
+        new_level_3 = g.breadth_first_search(v_a, 3, only_new=True)
+        self.assertCountEqual(new_level_3, [v_f, v_h])
+        # Get new vertices accessible at level 4
+        new_level_4 = g.breadth_first_search(v_a, 4, only_new=True)
+        self.assertCountEqual(new_level_4, [v_g, v_i, v_j])
+        # No new vertices accessible at level 5
+        new_level_5 = g.breadth_first_search(v_a, 5, only_new=True)
+        self.assertCountEqual(new_level_5, [])
+
+        # Try starting from differnt vertex
+        # Get all vertices accessible at level 1
+        # Get new vertices accessible at level 2
+        # Get all vertices accessible at level 3
+        # Get new vertices accessible at level 4
+
+        # Error should be raised if passing key rather than vertex object
+        with self.assertRaises(TypeError):
+            g.breadth_first_search("A", 1)
+        with self.assertRaises(TypeError):
+            g.breadth_first_search("G", 2, only_new=True)
+        # Error should be raised when vertex not in graph
+        v_y = Vertex("Y")
+        with self.assertRaises(ValueError):
+            g.breadth_first_search(v_y, 2)
+        v_z = Vertex("Z")
+        with self.assertRaises(ValueError):
+            g.breadth_first_search(v_z, 1, only_new=True)
 
 
 if __name__ == '__main__':
