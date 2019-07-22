@@ -132,11 +132,16 @@ class Graph:
         """Return all the vertices in the graph."""
         return set(self.vert_list.values())
 
-    def breadth_first_search(self, vertex, n):
+    def breadth_first_search(self, vertex, n, only_new=False):
         """Find all vertices n edges away from the passed in vertex."""
         # Raise error if vertex not in the graph
         if vertex not in self.get_vertices():
             raise ValueError(f"{vertex} is not in the Graph")
+
+        # If the search is looking for vertices only accessible at level n,
+        if only_new:
+            # Create a set of vertices that have already been visited
+            seen_vertices = set([vertex])
 
         # Create deque with passed in vertex
         vertex_deque = deque([vertex])
@@ -150,8 +155,21 @@ class Graph:
         while len(vertex_deque) > 0 and n_counter < n:
             # Grab a vertex from the front of the deque
             popped_vertex = vertex_deque.popleft()
-            # Add all vertices that vert can reach to the back of the deque
-            vertex_deque.extend(popped_vertex.get_vertices())
+
+            # Queue vertices if they will be seen for the first time
+            if only_new:
+                # Go through the vertices of the popped_vertex
+                for vert in popped_vertex.get_vertices():
+                    # If this vertex is new, allow it to be traversed
+                    if vert not in seen_vertices:
+                        # Add vertex to back of the deque
+                        vertex_deque.append(vert)
+                        # Mark that the vertex has been seen
+                        seen_vertices.add(vert)
+            # Otherwise, just add all vertices
+            else:
+                # Add all vertices that vert can reach to the back of the deque
+                vertex_deque.extend(popped_vertex.get_vertices())
             # Remove one from the counter because a vertex was just popped
             counter -= 1
 
@@ -168,6 +186,7 @@ class Graph:
             return set()
         # Return a set of all the vertices that can be reached at the nth level
         return set(vertex_deque)
+
 
 # Driver code
 if __name__ == "__main__":
