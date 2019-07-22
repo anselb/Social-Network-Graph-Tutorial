@@ -149,9 +149,9 @@ class Graph:
         # until the nth level has been reached
         while len(vertex_deque) > 0 and n_counter < n:
             # Grab a vertex from the front of the deque
-            vert = vertex_deque.popleft()
+            popped_vertex = vertex_deque.popleft()
             # Add all vertices that vert can reach to the back of the deque
-            vertex_deque.extend(vert.get_vertices())
+            vertex_deque.extend(popped_vertex.get_vertices())
             # Remove one from the counter because a vertex was just popped
             counter -= 1
 
