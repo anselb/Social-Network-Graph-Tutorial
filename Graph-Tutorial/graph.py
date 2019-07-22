@@ -1,5 +1,7 @@
 #!python
 
+from collections import deque
+
 
 class Vertex(object):
     """Helper class that defines vertices and vertex neighbors."""
@@ -130,6 +132,42 @@ class Graph:
         """Return all the vertices in the graph."""
         return set(self.vert_list.values())
 
+    def breadth_first_search(self, vertex, n):
+        """Find all vertices n edges away from the passed in vertex."""
+        # Raise error if vertex not in the graph
+        if vertex not in self.get_vertices():
+            raise ValueError(f"{vertex} is not in the Graph")
+
+        # Create deque with passed in vertex
+        vertex_deque = deque([vertex])
+        # n_counter tracks the current level
+        n_counter = 0
+        # counter tracks how many vertices from level n are still in the deque
+        counter = 1
+
+        # Keep looping until there are no more vertices to go through, or
+        # until the nth level has been reached
+        while len(vertex_deque) > 0 and n_counter < n:
+            # Grab a vertex from the front of the deque
+            vert = vertex_deque.popleft()
+            # Add all vertices that vert can reach to the back of the deque
+            vertex_deque.extend(vert.get_vertices())
+            # Remove one from the counter because a vertex was just popped
+            counter -= 1
+
+            # When all nodes from the current level are removed
+            if counter == 0:
+                # Set the current level that all the current vertices are on
+                n_counter += 1
+                # Track how many vertices can be reached on this level
+                counter = len(vertex_deque)
+
+        # If the loop above ends early due to lack of levels,
+        if n_counter < n:
+            # Return empty set because no vertices exist n edges away
+            return set()
+        # Return a set of all the vertices that can be reached at the nth level
+        return set(vertex_deque)
 
 # Driver code
 if __name__ == "__main__":
