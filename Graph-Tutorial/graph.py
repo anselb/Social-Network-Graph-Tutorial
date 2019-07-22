@@ -138,6 +138,10 @@ class Graph:
         if vertex not in self.get_vertices():
             raise ValueError(f"{vertex} is not in the Graph")
 
+        # Raise error if non vertex object is passed in as vertex
+        if not isinstance(vertex, Vertex):
+            raise TypeError("vertex parameter must be of type Vertex")
+
         # If the search is looking for vertices only accessible at level n,
         if only_new:
             # Create a set of vertices that have already been visited
