@@ -261,75 +261,75 @@ class GraphTest(unittest.TestCase):
         g.add_edge("J", "B")
 
         # Get all vertices accessible at level 1
-        level_1 = g.breadth_first_search(v_a, 1)
+        level_1 = g.breadth_first_search(v_a, 1, only_new=False)
         self.assertCountEqual(level_1, [v_b, v_c])
         # Get all vertices accessible at level 2
-        level_2 = g.breadth_first_search(v_a, 2)
+        level_2 = g.breadth_first_search(v_a, 2, only_new=False)
         self.assertCountEqual(level_2, [v_a, v_d, v_e])
         # Get all vertices accessible at level 3
-        level_3 = g.breadth_first_search(v_a, 3)
+        level_3 = g.breadth_first_search(v_a, 3, only_new=False)
         self.assertCountEqual(level_3, [v_b, v_c, v_f, v_h])
         # Get all vertices accessible at level 4
-        level_4 = g.breadth_first_search(v_a, 4)
+        level_4 = g.breadth_first_search(v_a, 4, only_new=False)
         self.assertCountEqual(level_4, [v_a, v_d, v_e, v_g, v_i, v_j])
         # Get all vertices accessible at level 5
-        level_5 = g.breadth_first_search(v_a, 5)
+        level_5 = g.breadth_first_search(v_a, 5, only_new=False)
         self.assertCountEqual(level_5, [v_b, v_c, v_f, v_h])
 
         # Get new vertices accessible at level 1
-        new_level_1 = g.breadth_first_search(v_a, 1, only_new=True)
+        new_level_1 = g.breadth_first_search(v_a, 1)
         self.assertCountEqual(new_level_1, [v_b, v_c])
         # Get new vertices accessible at level 2
-        new_level_2 = g.breadth_first_search(v_a, 2, only_new=True)
+        new_level_2 = g.breadth_first_search(v_a, 2)
         self.assertCountEqual(new_level_2, [v_d, v_e])
         # Get new vertices accessible at level 3
-        new_level_3 = g.breadth_first_search(v_a, 3, only_new=True)
+        new_level_3 = g.breadth_first_search(v_a, 3)
         self.assertCountEqual(new_level_3, [v_f, v_h])
         # Get new vertices accessible at level 4
-        new_level_4 = g.breadth_first_search(v_a, 4, only_new=True)
+        new_level_4 = g.breadth_first_search(v_a, 4)
         self.assertCountEqual(new_level_4, [v_g, v_i, v_j])
         # No new vertices accessible at level 5
-        new_level_5 = g.breadth_first_search(v_a, 5, only_new=True)
+        new_level_5 = g.breadth_first_search(v_a, 5)
         self.assertCountEqual(new_level_5, [])
 
         # Test starting from vertex "g"
         # Get all vertices accessible at level 1
-        g_level_1 = g.breadth_first_search(v_g, 1)
+        g_level_1 = g.breadth_first_search(v_g, 1, only_new=False)
         self.assertCountEqual(g_level_1, [v_h])
         # Get new vertices accessible at level 2
-        g_new_level_2 = g.breadth_first_search(v_g, 2, only_new=True)
+        g_new_level_2 = g.breadth_first_search(v_g, 2)
         self.assertCountEqual(g_new_level_2, [v_i, v_j])
         # Get all vertices accessible at level 3
-        g_level_3 = g.breadth_first_search(v_g, 3)
+        g_level_3 = g.breadth_first_search(v_g, 3, only_new=False)
         self.assertCountEqual(g_level_3, [v_b, v_h])
         # Get new vertices accessible at level 4
-        g_new_level_4 = g.breadth_first_search(v_g, 4, only_new=True)
+        g_new_level_4 = g.breadth_first_search(v_g, 4)
         self.assertCountEqual(g_new_level_4, [v_a, v_e])
         # Get new vertices accessible at level 5
-        g_new_level_5 = g.breadth_first_search(v_g, 5, only_new=True)
+        g_new_level_5 = g.breadth_first_search(v_g, 5)
         self.assertCountEqual(g_new_level_5, [v_c])
         # Get new vertices accessible at level 6
-        g_new_level_6 = g.breadth_first_search(v_g, 6, only_new=True)
+        g_new_level_6 = g.breadth_first_search(v_g, 6)
         self.assertCountEqual(g_new_level_6, [v_d])
         # Get new vertices accessible at level 7
-        g_new_level_7 = g.breadth_first_search(v_g, 7, only_new=True)
+        g_new_level_7 = g.breadth_first_search(v_g, 7)
         self.assertCountEqual(g_new_level_7, [v_f])
         # No new vertices accessible at level 8
-        g_new_level_8 = g.breadth_first_search(v_g, 8, only_new=True)
+        g_new_level_8 = g.breadth_first_search(v_g, 8)
         self.assertCountEqual(g_new_level_8, [])
 
         # Error should be raised if passing key rather than vertex object
         with self.assertRaises(TypeError):
-            g.breadth_first_search("A", 1)
+            g.breadth_first_search("A", 1, only_new=False)
         with self.assertRaises(TypeError):
-            g.breadth_first_search("G", 2, only_new=True)
+            g.breadth_first_search("G", 2)
         # Error should be raised when vertex not in graph
         v_y = Vertex("Y")
         with self.assertRaises(ValueError):
-            g.breadth_first_search(v_y, 2)
+            g.breadth_first_search(v_y, 2, only_new=False)
         v_z = Vertex("Z")
         with self.assertRaises(ValueError):
-            g.breadth_first_search(v_z, 1, only_new=True)
+            g.breadth_first_search(v_z, 1)
 
 
 if __name__ == '__main__':

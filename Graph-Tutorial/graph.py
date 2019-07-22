@@ -132,7 +132,7 @@ class Graph:
         """Return all the vertices in the graph."""
         return set(self.vert_list.values())
 
-    def breadth_first_search(self, vertex, n, only_new=False):
+    def breadth_first_search(self, vertex, n, only_new=True):
         """Find all vertices n edges away from the passed in vertex."""
         # Raise error if non vertex object is passed in as vertex
         if not isinstance(vertex, Vertex):
