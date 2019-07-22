@@ -134,13 +134,13 @@ class Graph:
 
     def breadth_first_search(self, vertex, n, only_new=False):
         """Find all vertices n edges away from the passed in vertex."""
-        # Raise error if vertex not in the graph
-        if vertex not in self.get_vertices():
-            raise ValueError(f"{vertex} is not in the Graph")
-
         # Raise error if non vertex object is passed in as vertex
         if not isinstance(vertex, Vertex):
             raise TypeError("vertex parameter must be of type Vertex")
+
+        # Raise error if vertex not in the graph
+        if vertex not in self.get_vertices():
+            raise ValueError(f"{vertex} is not in the Graph")
 
         # If the search is looking for vertices only accessible at level n,
         if only_new:
@@ -162,8 +162,8 @@ class Graph:
 
             # Queue vertices if they will be seen for the first time
             if only_new:
-                # Go through the vertices of the popped_vertex
-                for vert in popped_vertex.get_vertices():
+                # Go through the neighbors of the popped_vertex
+                for vert in popped_vertex.get_neighbors():
                     # If this vertex is new, allow it to be traversed
                     if vert not in seen_vertices:
                         # Add vertex to back of the deque
@@ -173,7 +173,7 @@ class Graph:
             # Otherwise, just add all vertices
             else:
                 # Add all vertices that vert can reach to the back of the deque
-                vertex_deque.extend(popped_vertex.get_vertices())
+                vertex_deque.extend(popped_vertex.get_neighbors())
             # Remove one from the counter because a vertex was just popped
             counter -= 1
 
