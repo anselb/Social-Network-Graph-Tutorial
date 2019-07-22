@@ -292,11 +292,31 @@ class GraphTest(unittest.TestCase):
         new_level_5 = g.breadth_first_search(v_a, 5, only_new=True)
         self.assertCountEqual(new_level_5, [])
 
-        # Try starting from differnt vertex
+        # Test starting from vertex "g"
         # Get all vertices accessible at level 1
+        g_level_1 = g.breadth_first_search(v_g, 1)
+        self.assertCountEqual(g_level_1, [v_h])
         # Get new vertices accessible at level 2
+        g_new_level_2 = g.breadth_first_search(v_g, 2, only_new=True)
+        self.assertCountEqual(g_new_level_2, [v_i, v_j])
         # Get all vertices accessible at level 3
+        g_level_3 = g.breadth_first_search(v_g, 3)
+        self.assertCountEqual(g_level_3, [v_b, v_h])
         # Get new vertices accessible at level 4
+        g_new_level_4 = g.breadth_first_search(v_g, 4, only_new=True)
+        self.assertCountEqual(g_new_level_4, [v_a, v_e])
+        # Get new vertices accessible at level 5
+        g_new_level_5 = g.breadth_first_search(v_g, 5, only_new=True)
+        self.assertCountEqual(g_new_level_5, [v_c])
+        # Get new vertices accessible at level 6
+        g_new_level_6 = g.breadth_first_search(v_g, 6, only_new=True)
+        self.assertCountEqual(g_new_level_6, [v_d])
+        # Get new vertices accessible at level 7
+        g_new_level_7 = g.breadth_first_search(v_g, 7, only_new=True)
+        self.assertCountEqual(g_new_level_7, [v_f])
+        # No new vertices accessible at level 8
+        g_new_level_8 = g.breadth_first_search(v_g, 8, only_new=True)
+        self.assertCountEqual(g_new_level_8, [])
 
         # Error should be raised if passing key rather than vertex object
         with self.assertRaises(TypeError):
