@@ -66,7 +66,7 @@ class Vertex(object):
 class Graph:
     """Demonstrates the essential facts and functionalities of graphs."""
 
-    def __init__(self):
+    def __init__(self, weighted=False, directed=True):
         """Initialize a graph object with an empty dictionary.
 
         vert_list: a dictionary of the vertices in this graph where:
@@ -76,6 +76,8 @@ class Graph:
         """
         self.vert_list = {}
         self.num_vertices = 0
+        self.weighted = weighted
+        self.directed = directed
 
     def __iter__(self):
         """Iterate over the vertex objects in the graph.
@@ -114,6 +116,11 @@ class Graph:
 
         If a weight is provided, use that weight.
         """
+        if weight != 1 and not self.weighted:
+            print(f"Detected weight of {weight} in unweighted graph.")
+            print("Graph is now weighted, all previous vertices have weight 1")
+            self.weighted = True
+
         # Add from_key vertex if it is not in the graph
         if from_key not in self.vert_list:
             self.add_vertex(from_key)
@@ -128,6 +135,9 @@ class Graph:
 
         # When both vertices in graph, make from_vert a neighbor of to_vert
         from_vert.add_neighbor(to_vert, weight)
+        # If the graph undirected, add connection back from to_vert to from_key
+        if not self.directed:
+            to_vert.add_neighbor(from_vert, weight)
 
     def get_vertices(self):
         """Return all the vertices in the graph."""
@@ -163,17 +173,22 @@ class Graph:
                 if line[0] == "(":
                     edge_list.append(line)
 
-        # Add vertices to graph
-        # TODO: Does not handle string vertex names or decimal weights
-        for vertex in vertices.split(","):
-            self.add_vertex(int(vertex))
-
         # See if graph is a digraph
         if graph_type == "D":
             directed = True
         # See if graph is weighted
         if len(edge_list[0].split(",")) == 3:
             weighted = True
+
+        # Set the graph type if it has not been set yet
+        if self.num_vertices == 0:
+            self.weighted = weighted
+            self.directed = directed
+
+        # Add vertices to graph
+        # TODO: Does not handle string vertex names
+        for vertex in vertices.split(","):
+            self.add_vertex(int(vertex))
 
         # Add edges to graph
         # TODO: Does not handle string vertex names or decimal weights
