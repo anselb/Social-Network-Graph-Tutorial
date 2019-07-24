@@ -17,6 +17,7 @@ class Vertex(object):
         """
         self.id = vertex_id
         self.neighbors = {}
+        self.parent = None
 
     def __repr__(self):
         """Return representation of vertex object."""
@@ -268,6 +269,8 @@ class Graph:
                 for vert in popped_vertex.get_neighbors():
                     # If this vertex is new, allow it to be traversed
                     if vert not in seen_vertices:
+                        # Set the parent of this vertex as the popped vertex
+                        vert.parent = popped_vertex
                         # Add vertex to back of the deque
                         vertex_deque.append(vert)
                         # Mark that the vertex has been seen
@@ -292,6 +295,38 @@ class Graph:
             return set()
         # Return a set of all the vertices that can be reached at the nth level
         return set(vertex_deque)
+
+    def find_shortest_path(self, start, end):
+        """Find the shortest path between two vertices."""
+        # Set the starting and ending vertices, using start and end keys
+        start_vert = self.vert_list[start]
+        end_vert = self.vert_list[end]
+
+        # Get the vertices one edge away from starting vertex
+        level = 1
+        verts_at_n_level = self.breadth_first_search(start_vert, level)
+        # Keep searching levels there is nothing, or the end vertex is found
+        while end_vert not in verts_at_n_level:
+            # If there are no more vertices to search
+            if len(verts_at_n_level) == 0:
+                # Return None because there is no path between the vertices
+                return None
+            # Get the vertices one more edge away from the starting vertex
+            level += 1
+            verts_at_n_level = self.breadth_first_search(start_vert, level)
+
+        # Create a path list and the ending vertex
+        path = [end_vert]
+        parent = end_vert
+        # Go through the parents of each vertex, until start vertex is reached
+        while start_vert != parent:
+            # Move to the parent of the current vertex, and add it to the path
+            parent = parent.parent
+            path.append(parent)
+
+        # Reverse the path, and return it
+        path[:] = reversed(path)
+        return path
 
 
 # Driver code
