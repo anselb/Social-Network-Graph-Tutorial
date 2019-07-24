@@ -206,6 +206,34 @@ class Graph:
                 # Remove parenthesis from strings, and convert strings to ints
                 self.add_edge(int(data[0]), int(data[1]))
 
+    def get_edge_list(self):
+        """Return a list of edges (with their weights if weighted)."""
+        edge_list = set()
+
+        for from_vert in self.get_vertices():
+            for to_vert in from_vert.get_neighbors():
+                # If the graph is weighted, store the edge weight in a graph
+                if self.weighted:
+                    weight = from_vert.neighbors[to_vert]
+
+                # If the graph is directed, as to edge list as normal
+                if self.directed and self.weighted:
+                    edge_list.add((from_vert.id, to_vert.id, weight))
+                if self.directed and not self.weighted:
+                    edge_list.add((from_vert.id, to_vert.id))
+
+                # If the graph is undirected, make sure only one edge between
+                # two vertices is counted. My implementation stores a directed
+                # edge from and to both vertices for easier traversals.
+                if not self.directed and self.weighted:
+                    if (to_vert.id, from_vert.id, weight) not in edge_list:
+                        edge_list.add((from_vert.id, to_vert.id, weight))
+                if not self.directed and not self.weighted:
+                    if (to_vert.id, from_vert.id) not in edge_list:
+                        edge_list.add((from_vert.id, to_vert.id))
+
+        return edge_list
+
     def breadth_first_search(self, vertex, n, only_new=True):
         """Find all vertices n edges away from the passed in vertex."""
         # Raise error if non vertex object is passed in as vertex
