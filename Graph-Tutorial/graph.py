@@ -202,15 +202,9 @@ class Graph:
             if weighted:
                 # Remove parenthesis from strings, and convert strings to ints
                 self.add_edge(int(data[0]), int(data[1]), int(data[2]))
-
-                if not directed:
-                    self.add_edge(int(data[1]), int(data[0]), int(data[2]))
             else:
                 # Remove parenthesis from strings, and convert strings to ints
                 self.add_edge(int(data[0]), int(data[1]))
-
-                if not directed:
-                    self.add_edge(int(data[1]), int(data[0]))
 
     def breadth_first_search(self, vertex, n, only_new=True):
         """Find all vertices n edges away from the passed in vertex."""
