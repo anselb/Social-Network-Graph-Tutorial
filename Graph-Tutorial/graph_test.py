@@ -331,6 +331,64 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             g.breadth_first_search(v_z, 1)
 
+    def test_find_shortest_path(self):
+        # Create graph with 4 levels
+        g = Graph()
+        # Create and get references to vertices
+        v_a = g.add_vertex('A')
+        v_b = g.add_vertex('B')
+        v_c = g.add_vertex('C')
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        v_f = g.add_vertex('F')
+        v_g = g.add_vertex('G')
+        v_h = g.add_vertex('H')
+        v_i = g.add_vertex('I')
+        v_j = g.add_vertex('J')
+        # Create edges
+        g.add_edge("A", "B")
+        g.add_edge("A", "C")
+        g.add_edge("B", "A")
+        g.add_edge("B", "E")
+        g.add_edge("C", "D")
+        g.add_edge("D", "F")
+        g.add_edge("E", "H")
+        g.add_edge("F", "G")
+        g.add_edge("G", "H")
+        g.add_edge("H", "I")
+        g.add_edge("H", "J")
+        g.add_edge("H", "G")
+        g.add_edge("J", "B")
+        # Add vertices that cannot be reached by other vertices
+        g.add_vertex('X')
+        g.add_edge("Y", "Z")
+
+        # Find shortest path 2 edges away
+        path_2 = g.find_shortest_path("A", "E")
+        self.assertEqual(path_2, [v_a, v_b, v_e])  # Order matters
+        # Find shortest path 4 edges away
+        path_4 = g.find_shortest_path("A", "I")
+        self.assertEqual(path_4, [v_a, v_b, v_e, v_h, v_i])  # Order matters
+        # Find shortest path 7 edges away
+        path_7 = g.find_shortest_path("G", "F")
+        true_path_7 = [v_g, v_h, v_j, v_b, v_a, v_c, v_d, v_f]  # Order matters
+        self.assertEqual(path_7, true_path_7)
+
+        # There is no shortest path between unconnected vertices in same graph
+        no_path_1 = g.find_shortest_path("G", "X")
+        self.assertEqual(no_path_1, None)
+        no_path_2 = g.find_shortest_path("X", "Z")
+        self.assertEqual(no_path_2, None)
+        # There is no way to traverse to the same vertex
+        no_path = g.find_shortest_path("A", "A")
+        self.assertEqual(no_path, None)
+
+        # Error should be raised when vertex not in graph
+        with self.assertRaises(KeyError):
+            g.find_shortest_path("A", 1)
+        with self.assertRaises(KeyError):
+            g.find_shortest_path("T", "A")
+
 
 if __name__ == '__main__':
     unittest.main()
