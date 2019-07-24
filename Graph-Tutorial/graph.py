@@ -1,6 +1,7 @@
 #!python
 
 from collections import deque
+import string
 
 
 class Vertex(object):
@@ -131,6 +132,70 @@ class Graph:
     def get_vertices(self):
         """Return all the vertices in the graph."""
         return set(self.vert_list.values())
+
+    def make_graph_from_file(self, file_name):
+        """Read graph data from a file, and create a graph based on it."""
+        valid_types = "gGdD"
+
+        graph_type = ""
+        vertices = ""
+        edge_list = []
+        directed = False
+        weighted = False
+
+        with open(file_name, 'r') as f:
+            for line in f.readlines():
+                # Strip trailing whitespace
+                line = line.rstrip()
+
+                # Find graph type
+                if line[0] in string.ascii_letters:
+                    if line[0] in valid_types:
+                        graph_type = line[0].upper()
+                    else:
+                        raise ValueError("Looking for type 'G' or 'D'")
+
+                # Find list of vertices
+                if line[0] in string.digits:
+                    vertices = line
+
+                # Find edges
+                if line[0] == "(":
+                    edge_list.append(line)
+
+        # Add vertices to graph
+        # TODO: Does not handle string vertex names or decimal weights
+        for vertex in vertices.split(","):
+            self.add_vertex(int(vertex))
+
+        # See if graph is a digraph
+        if graph_type == "D":
+            directed = True
+        # See if graph is weighted
+        if len(edge_list[0].split(",")) == 3:
+            weighted = True
+
+        # Add edges to graph
+        # TODO: Does not handle string vertex names or decimal weights
+        for edge in edge_list:
+            # Remove parenthesis
+            data = edge[1:-1]
+            # Turn data into array by splitting on commas
+            data = data.split(",")
+
+            # Split the tuple correctly
+            if weighted:
+                # Remove parenthesis from strings, and convert strings to ints
+                self.add_edge(int(data[0]), int(data[1]), int(data[2]))
+
+                if not directed:
+                    self.add_edge(int(data[1]), int(data[0]), int(data[2]))
+            else:
+                # Remove parenthesis from strings, and convert strings to ints
+                self.add_edge(int(data[0]), int(data[1]))
+
+                if not directed:
+                    self.add_edge(int(data[1]), int(data[0]))
 
     def breadth_first_search(self, vertex, n, only_new=True):
         """Find all vertices n edges away from the passed in vertex."""
