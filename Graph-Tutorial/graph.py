@@ -94,7 +94,7 @@ class Graph:
         """
         # Raise error if key already exists in graph
         if key in self.vert_list:
-            raise KeyError(f"{key} is already in the Graph")
+            raise KeyError(f"Vertex({key}) is already in the Graph")
         # Increment the number of vertices
         self.num_vertices += 1
         # Create a new vertex
@@ -108,7 +108,7 @@ class Graph:
         """Return the vertex if it exists, else raise KeyError."""
         # Raise error if key does not exist in graph
         if key not in self.vert_list:
-            raise KeyError(f"{key} is not in the Graph")
+            raise KeyError(f"Vertex({key}) is not in the Graph")
         # Return the vertex if it is in the graph
         return self.vert_list[key]
 
@@ -298,6 +298,12 @@ class Graph:
 
     def find_shortest_path(self, start, end):
         """Find the shortest path between two vertices."""
+        # Raise error if start or end does not exist in graph
+        if start not in self.vert_list:
+            raise KeyError(f"Vertex({start}) is not in the Graph")
+        if end not in self.vert_list:
+            raise KeyError(f"Vertex({end}) is not in the Graph")
+
         # Set the starting and ending vertices, using start and end keys
         start_vert = self.vert_list[start]
         end_vert = self.vert_list[end]
