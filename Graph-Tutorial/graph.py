@@ -31,28 +31,65 @@ class Vertex(object):
         """Return hash of vertex class, for using this class as a dict key."""
         return hash(self.id)
 
+    def _check_type(self, other, operator):
+        """Raise TypeError if there is a type mismatch."""
+        # Get the name of the type of other object
+        other_type = type(other).__name__
+        # Create the error message if there is a type mismatch
+        error_message = f"""'{operator}' not supported between
+                            instances of 'Vertex' and '{other_type}'"""
+        # If the other object is not of type Vertex, raise TypeError
+        if not isinstance(other, Vertex):
+            raise TypeError(error_message)
+
     def __lt__(self, other):
         """Determine if this vertex is less than the other vertex."""
+        # Check the type of the other object, and raise error if type mismatch
+        self._check_type(other, '<')
+
+        # Otherwise, handle accordingly
         return self.id < other.id
 
     def __le__(self, other):
         """Determine if this vertex is less than or equal to other vertex."""
+        # Check the type of the other object, and raise error if type mismatch
+        self._check_type(other, '<=')
+
+        # Otherwise, handle accordingly
         return self.id <= other.id
 
     def __eq__(self, other):
         """Determine if two vertices are equal."""
+        # If the type of the other object is not a Vertex, it is not equal
+        if not isinstance(other, Vertex):
+            return False
+
+        # Otherwise, handle accordingly
         return self.id == other.id
 
     def __ne__(self, other):
         """Determine if two vertices are not equal."""
+        # If the type of the other object is not a Vertex, it is not equal
+        if not isinstance(other, Vertex):
+            return True
+
+        # Otherwise, handle accordingly
         return self.id != other.id
 
     def __ge__(self, other):
         """Determine if this vertex is greater than or equal to other vert."""
+        # Check the type of the other object, and raise error if type mismatch
+        self._check_type(other, '>=')
+
+        # Otherwise, handle accordingly
         return self.id >= other.id
 
     def __gt__(self, other):
         """Determine if this vertex is greater than other vertex."""
+        # Check the type of the other object, and raise error if type mismatch
+        self._check_type(other, '>')
+
+        # Otherwise, handle accordingly
         return self.id > other.id
 
     def add_neighbor(self, vertex, weight=1):
