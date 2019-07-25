@@ -406,11 +406,13 @@ class Graph:
             for vert in vertices:
                 vert.parent = None
 
+            # Set starting vertex parent to False, it does not get a parent
+            vertex.parent = False
+
         # If order matters, sort the neighbors
         if least_first:
             # Sort the neighbors
             neighbors = sorted(vertex.get_neighbors())
-            print(vertex.id, neighbors)
         else:
             # Otherwise, just get the unordered set
             neighbors = vertex.get_neighbors()
