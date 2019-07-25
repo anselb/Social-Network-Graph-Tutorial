@@ -31,6 +31,14 @@ class Vertex(object):
         """Return hash of vertex class, for using this class as a dict key."""
         return hash(self.id)
 
+    def __lt__(self, other):
+        """Determine if this vertex is less than the other vertex."""
+        return self.id < other.id
+
+    def __le__(self, other):
+        """Determine if this vertex is less than or equal to other vertex."""
+        return self.id <= other.id
+
     def __eq__(self, other):
         """Determine if two vertices are equal."""
         return self.id == other.id
@@ -38,6 +46,14 @@ class Vertex(object):
     def __ne__(self, other):
         """Determine if two vertices are not equal."""
         return self.id != other.id
+
+    def __ge__(self, other):
+        """Determine if this vertex is greater than or equal to other vert."""
+        return self.id >= other.id
+
+    def __gt__(self, other):
+        """Determine if this vertex is greater than other vertex."""
+        return self.id > other.id
 
     def add_neighbor(self, vertex, weight=1):
         """Add a neighbor along a weighted edge."""
@@ -333,6 +349,43 @@ class Graph:
         # Reverse the path, and return it
         path[:] = reversed(path)
         return path
+
+    def depth_first_search(self, vertex, least_first=True, clear_parents=True):
+        """Create DFS spanning tree by setting parent property of vertex."""
+        # Raise error if non vertex object is passed in as vertex
+        if not isinstance(vertex, Vertex):
+            raise TypeError("vertex parameter must be of type Vertex")
+
+        # Get set of vertices
+        vertices = self.get_vertices()
+
+        # Raise error if vertex not in the graph
+        if vertex not in vertices:
+            raise ValueError(f"Vertex({vertex}) is not in the Graph")
+
+        # Ensure vertex does not have stale parent property from previous call
+        if clear_parents:
+            # For each vertex, set the parent to None
+            for vert in vertices:
+                vert.parent = None
+
+        # If order matters, sort the neighbors
+        if least_first:
+            # Sort the neighbors
+            neighbors = sorted(vertex.get_neighbors())
+            print(vertex.id, neighbors)
+        else:
+            # Otherwise, just get the unordered set
+            neighbors = vertex.get_neighbors()
+
+        # For each neighor of this vertex,
+        for neighbor in neighbors:
+            # Check if it does not have a parent
+            if neighbor.parent is None:
+                # If it doesn't, give it a parent
+                neighbor.parent = vertex
+                # Continue the depth first search (no return needed)
+                self.depth_first_search(neighbor, least_first, False)
 
 
 # Driver code
