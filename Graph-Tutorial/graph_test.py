@@ -397,6 +397,84 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(KeyError):
             g.find_shortest_path("T", "A")
 
+    def test_depth_first_search(self):
+        # Create graph
+        g = Graph()
+        # Create and get references to vertices
+        v_a = g.add_vertex('A')
+        v_b = g.add_vertex('B')
+        v_c = g.add_vertex('C')
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        v_f = g.add_vertex('F')
+        v_g = g.add_vertex('G')
+        v_h = g.add_vertex('H')
+        v_i = g.add_vertex('I')
+        v_j = g.add_vertex('J')
+        # Create edges
+        g.add_edge("A", "B")
+        g.add_edge("A", "C")
+        g.add_edge("B", "A")
+        g.add_edge("B", "E")
+        g.add_edge("C", "D")
+        g.add_edge("D", "F")
+        g.add_edge("E", "H")
+        g.add_edge("F", "G")
+        g.add_edge("G", "H")
+        g.add_edge("H", "I")
+        g.add_edge("H", "J")
+        g.add_edge("H", "G")
+        g.add_edge("J", "B")
+
+        # Depth first search starting at vertex A, prioritizing smaller values
+        g.depth_first_search(v_a, least_first=True)
+        self.assertEqual(v_a.parent, False)
+        self.assertEqual(v_b.parent, v_a)
+        self.assertEqual(v_e.parent, v_b)
+        self.assertEqual(v_h.parent, v_e)
+        self.assertEqual(v_g.parent, v_h)
+        self.assertEqual(v_i.parent, v_h)
+        self.assertEqual(v_j.parent, v_h)
+        self.assertEqual(v_c.parent, v_a)
+        self.assertEqual(v_d.parent, v_c)
+        self.assertEqual(v_f.parent, v_d)
+
+        # Add vertices that cannot be reached by other vertices
+        v_s = g.add_vertex('S')
+        v_t = g.add_vertex('T')
+
+        # Depth first search starting at vertex A, prioritizing smaller values
+        g.depth_first_search(v_h, least_first=True)
+        self.assertEqual(v_h.parent, False)
+        self.assertEqual(v_g.parent, v_h)
+        self.assertEqual(v_i.parent, v_h)
+        self.assertEqual(v_j.parent, v_h)
+        self.assertEqual(v_b.parent, v_j)
+        self.assertEqual(v_a.parent, v_b)
+        self.assertEqual(v_c.parent, v_a)
+        self.assertEqual(v_d.parent, v_c)
+        self.assertEqual(v_f.parent, v_d)
+        self.assertEqual(v_e.parent, v_b)
+        self.assertEqual(v_e.parent, v_b)
+        self.assertEqual(v_e.parent, v_b)
+
+        # Vertex Y and Z cannot be reached
+        self.assertEqual(v_s.parent, None)
+        self.assertEqual(v_t.parent, None)
+
+        # Error should be raised if passing key rather than vertex object
+        with self.assertRaises(TypeError):
+            g.depth_first_search("A", least_first=True)
+        with self.assertRaises(TypeError):
+            g.depth_first_search("G")
+        # Error should be raised when vertex not in graph
+        v_y = Vertex("Y")
+        with self.assertRaises(ValueError):
+            g.depth_first_search(v_y, least_first=True)
+        v_z = Vertex("Z")
+        with self.assertRaises(ValueError):
+            g.depth_first_search(v_z)
+
 
 if __name__ == '__main__':
     unittest.main()
