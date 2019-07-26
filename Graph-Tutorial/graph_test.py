@@ -504,12 +504,41 @@ class GraphTest(unittest.TestCase):
         g.add_edge("H", "G")
         g.add_edge("J", "B")
 
+        # Test 5 different possible paths that include all vertices
+        # Since find_path uses dfs visiting in sorted order, order is the same
+        path_1 = g.find_path("A", "G")
+        path_1_expected = [v_a, v_b, v_e, v_h, v_g]
+        self.assertEqual(path_1, path_1_expected)  # Order matters
+        path_2 = g.find_path("D", "J")
+        path_2_expected = [v_d, v_f, v_g, v_h, v_j]
+        self.assertEqual(path_2, path_2_expected)  # Order matters
+        path_3 = g.find_path("B", "J")
+        path_3_expected = [v_b, v_a, v_c, v_d, v_f, v_g, v_h, v_j]
+        self.assertEqual(path_3, path_3_expected)  # Order matters
+        path_4 = g.find_path("J", "H")
+        path_4_expected = [v_j, v_b, v_a, v_c, v_d, v_f, v_g, v_h]
+        self.assertEqual(path_4, path_4_expected)  # Order matters
+        # Even if edge added from J to H, dfs prioritizes sorted order
+        g.add_edge("J", "H")
+        path_5 = g.find_path("J", "H")
+        path_5_expected = [v_j, v_b, v_a, v_c, v_d, v_f, v_g, v_h]
+        self.assertEqual(path_5, path_5_expected)  # Order matters
+        # Show that shortest path is from vertex J to vertex H
+        shortest_path_5 = g.find_shortest_path("J", "H")
+        expected_shortest_path_5 = [v_j, v_h]  # Order matters
+        self.assertEqual(shortest_path_5, expected_shortest_path_5)
+
         # Add vertices that cannot be reached by other vertices
-        v_s = g.add_vertex('S')
-        v_t = g.add_vertex('T')
+        g.add_vertex('S')
+        g.add_vertex('T')
         # Vertex S and T cannot be reached
         self.assertEqual(g.find_path("A", "S"), None)
         self.assertEqual(g.find_path("T", "A"), None)
+
+        # Graph is directed, and vertex I does not direct anywhere
+        self.assertEqual(g.find_path("I", "H"), None)
+        # You can still get to vertex I from another vertex
+        self.assertEqual(g.find_path("H", "I"), [v_h, v_i])
 
         # Error should be raised if passing vertex object rather than key
         with self.assertRaises(TypeError):
