@@ -426,6 +426,43 @@ class Graph:
                 # Continue the depth first search (no return needed)
                 self.depth_first_search(neighbor, least_first, False)
 
+    def find_path(self, start, end):
+        """Find any path from from_vert to to_vert."""
+        # Raise error if vertex object is passed in as start or end
+        if isinstance(start, Vertex) or isinstance(end, Vertex):
+            raise TypeError("Expected vertex ids as start and end.")
+
+        # Raise error if start or end keys do not exist in graph
+        if start not in self.vert_list:
+            raise KeyError(f"Vertex({start}) is not in the Graph")
+        if end not in self.vert_list:
+            raise KeyError(f"Vertex({end}) is not in the Graph")
+
+        # Set the starting and ending vertices, using start and end keys
+        start_vert = self.vert_list[start]
+        end_vert = self.vert_list[end]
+
+        # Run depth first tree that creates spanning tree of graph
+        self.depth_first_search(self, start_vert, least_first=True)
+
+        # Create a path list and the ending vertex
+        path = [end_vert]
+        parent = end_vert
+        # Go through the parents of each vertex, until start vertex is reached
+        while start_vert != parent:
+            # If parent is None, the spanning tree is broken, no path exists
+            if parent is None:
+                # Return None as no path exists betwen the start and end vertex
+                return None
+
+            # Move to the parent of the current vertex, and add it to the path
+            parent = parent.parent
+            path.append(parent)
+
+        # Reverse the path, and return it
+        path[:] = reversed(path)
+        return path
+
 
 # Driver code
 if __name__ == "__main__":
