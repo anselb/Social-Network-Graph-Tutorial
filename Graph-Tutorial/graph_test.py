@@ -458,7 +458,7 @@ class GraphTest(unittest.TestCase):
         self.assertEqual(v_e.parent, v_b)
         self.assertEqual(v_e.parent, v_b)
 
-        # Vertex Y and Z cannot be reached
+        # Vertex S and T cannot be reached
         self.assertEqual(v_s.parent, None)
         self.assertEqual(v_t.parent, None)
 
@@ -474,6 +474,53 @@ class GraphTest(unittest.TestCase):
         v_z = Vertex("Z")
         with self.assertRaises(ValueError):
             g.depth_first_search(v_z)
+
+    def test_find_path(self):
+        # Create graph
+        g = Graph()
+        # Create and get references to vertices
+        v_a = g.add_vertex('A')
+        v_b = g.add_vertex('B')
+        v_c = g.add_vertex('C')
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        v_f = g.add_vertex('F')
+        v_g = g.add_vertex('G')
+        v_h = g.add_vertex('H')
+        v_i = g.add_vertex('I')
+        v_j = g.add_vertex('J')
+        # Create edges
+        g.add_edge("A", "B")
+        g.add_edge("A", "C")
+        g.add_edge("B", "A")
+        g.add_edge("B", "E")
+        g.add_edge("C", "D")
+        g.add_edge("D", "F")
+        g.add_edge("E", "H")
+        g.add_edge("F", "G")
+        g.add_edge("G", "H")
+        g.add_edge("H", "I")
+        g.add_edge("H", "J")
+        g.add_edge("H", "G")
+        g.add_edge("J", "B")
+
+        # Add vertices that cannot be reached by other vertices
+        v_s = g.add_vertex('S')
+        v_t = g.add_vertex('T')
+        # Vertex S and T cannot be reached
+        self.assertEqual(g.find_path("A", "S"), None)
+        self.assertEqual(g.find_path("T", "A"), None)
+
+        # Error should be raised if passing vertex object rather than key
+        with self.assertRaises(TypeError):
+            g.find_path(v_a, "H")
+        with self.assertRaises(TypeError):
+            g.find_path("G", v_b)
+        # Error should be raised when vertex id / key not in graph
+        with self.assertRaises(KeyError):
+            g.find_path("A", "Y")
+        with self.assertRaises(KeyError):
+            g.find_path("Z", "A")
 
 
 if __name__ == '__main__':
