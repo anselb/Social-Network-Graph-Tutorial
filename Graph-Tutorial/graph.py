@@ -443,7 +443,7 @@ class Graph:
         end_vert = self.vert_list[end]
 
         # Run depth first tree that creates spanning tree of graph
-        self.depth_first_search(self, start_vert, least_first=True)
+        self.depth_first_search(start_vert, least_first=True)
 
         # Create a path list and the ending vertex
         path = [end_vert]
