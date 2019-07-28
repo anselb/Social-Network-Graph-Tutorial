@@ -212,6 +212,11 @@ class Graph:
                 # Strip trailing whitespace
                 line = line.rstrip()
 
+                # Skip line if it is empty to prevent index range errors below
+                if line == "":
+                    # Moves to next line (next iteration of for loop)
+                    continue
+
                 # Find graph type
                 if line[0] in string.ascii_letters:
                     if line[0] in valid_types:
