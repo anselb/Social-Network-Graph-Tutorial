@@ -463,6 +463,47 @@ class Graph:
         path[:] = reversed(path)
         return path
 
+    def maximal_clique(self, vertex, least_first=True):
+        """Return a maximal clique of a given vertex."""
+        # Raise error if non vertex object is passed in as vertex
+        if not isinstance(vertex, Vertex):
+            raise TypeError("vertex parameter must be of type Vertex")
+
+        # Raise error if called when graph is directed
+        if self.directed:
+            raise TypeError("maximal_clique can't be called on directed graph")
+
+        # Initialize clique as a set of vertices
+        clique = set(vertex)
+
+        # If order matters, sort the neighbors
+        if least_first:
+            # Sort the neighbors
+            neighbors = sorted(vertex.get_neighbors())
+        else:
+            # Otherwise, just get the unordered set
+            neighbors = vertex.get_neighbors()
+
+        # Clique members must be neighor of vertex parameter
+        for neighor in neighbors:
+            # Keep track of clique memebers that are adjacent to neighor
+            clique_counter = 0
+            # Check each clique member if it is adjacent to current neighor
+            for clique_member in clique:
+                # If the current neighor is not adjacent to this clique member
+                if neighor not in clique_member.get_neighbors():
+                    # Break out of this loop, and move to next neighor
+                    break
+                # If it is, increase the count of adjacent clique members
+                clique_counter += 1
+                # If all clique members are adjacent to current neighor,
+                if clique_counter == len(clique):
+                    # Add the current neighor to the clique
+                    clique.add(neighor)
+
+        # After all neighors checked, return the clique
+        return clique
+
 
 # Driver code
 if __name__ == "__main__":
