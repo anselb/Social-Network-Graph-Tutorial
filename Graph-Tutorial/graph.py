@@ -489,7 +489,7 @@ class Graph:
             vertex = random.choice(list(self.get_vertices()))
 
         # Initialize clique as a set of vertices
-        clique = set(vertex)
+        clique = set([vertex])
 
         # If order matters, sort the neighbors
         if least_first:
