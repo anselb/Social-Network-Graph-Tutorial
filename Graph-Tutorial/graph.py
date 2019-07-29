@@ -515,6 +515,9 @@ class Graph:
                 if clique_counter == len(clique):
                     # Add the current neighor to the clique
                     clique.add(neighor)
+                    # Make sure to break out of loop
+                    # Avoids RuntimeError: Set changed size during iteration
+                    break
 
         # After all neighors checked, return the clique
         return clique
