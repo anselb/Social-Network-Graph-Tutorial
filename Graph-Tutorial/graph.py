@@ -472,7 +472,7 @@ class Graph:
     def find_maximal_clique(self, vertex=None, least_first=True):
         """Return a maximal clique of a given vertex."""
         # Raise error if non vertex object is passed in as vertex
-        if not isinstance(vertex, Vertex):
+        if not isinstance(vertex, Vertex) and vertex is not None:
             raise TypeError("vertex parameter must be of type Vertex")
 
         # Raise error if called when graph is directed
