@@ -479,14 +479,14 @@ class Graph:
         if self.directed:
             raise TypeError("maximal_clique can't be called on directed graph")
 
-        # Raise error if vertex not in the graph
-        if vertex not in self.get_vertices():
-            raise ValueError(f"Vertex({vertex}) is not in the Graph")
-
         # If looking for random maximal clique,
         if vertex is None:
             # Set the vertex parameter to randomly selected vertex
             vertex = random.choice(list(self.get_vertices()))
+
+        # Raise error if vertex not in the graph
+        if vertex not in self.get_vertices():
+            raise ValueError(f"Vertex({vertex}) is not in the Graph")
 
         # Initialize clique as a set of vertices
         clique = set([vertex])
