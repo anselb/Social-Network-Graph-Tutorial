@@ -1,6 +1,7 @@
 #!python
 
 from collections import deque
+import random
 import string
 
 
@@ -468,7 +469,7 @@ class Graph:
         path[:] = reversed(path)
         return path
 
-    def find_maximal_clique(self, vertex, least_first=True):
+    def find_maximal_clique(self, vertex=None, least_first=True):
         """Return a maximal clique of a given vertex."""
         # Raise error if non vertex object is passed in as vertex
         if not isinstance(vertex, Vertex):
@@ -477,6 +478,11 @@ class Graph:
         # Raise error if called when graph is directed
         if self.directed:
             raise TypeError("maximal_clique can't be called on directed graph")
+
+        # If looking for random maximal clique,
+        if vertex is None:
+            # Set the vertex parameter to randomly selected vertex
+            vertex = random.choice(list(self.get_vertices()))
 
         # Initialize clique as a set of vertices
         clique = set(vertex)
