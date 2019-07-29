@@ -468,7 +468,7 @@ class Graph:
         path[:] = reversed(path)
         return path
 
-    def maximal_clique(self, vertex, least_first=True):
+    def find_maximal_clique(self, vertex, least_first=True):
         """Return a maximal clique of a given vertex."""
         # Raise error if non vertex object is passed in as vertex
         if not isinstance(vertex, Vertex):
