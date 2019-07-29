@@ -551,6 +551,92 @@ class GraphTest(unittest.TestCase):
         with self.assertRaises(KeyError):
             g.find_path("Z", "A")
 
+    def test_find_maximal_clique(self):
+        # Create graph unweighted, undirected graph
+        g = Graph(weighted=False, directed=False)
+
+        # A clique of 1
+        v_a = g.add_vertex('A')
+        maximal_clique_1 = g.find_maximal_clique(v_a)
+        expected_maximal_clique_1 = [v_a]
+        self.assertCountEqual(maximal_clique_1, expected_maximal_clique_1)
+        # A clique of 2
+        v_b = g.add_vertex('B')
+        g.add_edge("A", "B")
+        maximal_clique_2 = g.find_maximal_clique(v_a)
+        expected_maximal_clique_2 = [v_a, v_b]
+        self.assertCountEqual(maximal_clique_2, expected_maximal_clique_2)
+        # Not a clique of 3
+        v_c = g.add_vertex('C')
+        not_clique_3 = g.find_maximal_clique(v_a)
+        expected_not_clique_3 = [v_a, v_b]
+        self.assertCountEqual(not_clique_3, expected_not_clique_3)
+        # Now it is a clique of 3
+        g.add_edge("A", "C")
+        g.add_edge("B", "C")
+        maximal_clique_3 = g.find_maximal_clique(v_a)
+        expected_maximal_clique_3 = [v_a, v_b, v_c]
+        self.assertCountEqual(maximal_clique_3, expected_maximal_clique_3)
+        # Not clique of 7
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        v_f = g.add_vertex('F')
+        v_g = g.add_vertex('G')
+        g.add_edge("A", "D")
+        g.add_edge("A", "E")
+        g.add_edge("A", "F")
+        g.add_edge("A", "G")
+        g.add_edge("B", "D")
+        g.add_edge("B", "E")
+        g.add_edge("B", "F")
+        g.add_edge("B", "G")
+        g.add_edge("C", "D")
+        g.add_edge("C", "E")
+        g.add_edge("C", "F")
+        g.add_edge("C", "G")
+        g.add_edge("D", "E")
+        g.add_edge("D", "F")
+        g.add_edge("D", "G")
+        g.add_edge("E", "F")
+        g.add_edge("E", "G")
+        # But it is a clique of 6
+        maximal_clique_6 = g.find_maximal_clique(v_a)
+        expected_maximal_clique_6 = [v_a, v_b, v_c, v_d, v_e, v_f]
+        self.assertCountEqual(maximal_clique_6, expected_maximal_clique_6)
+        # Now it is a clique of 7
+        g.add_edge("F", "G")
+        maximal_clique_7 = g.find_maximal_clique(v_a)
+        expected_maximal_clique_7 = [v_a, v_b, v_c, v_d, v_e, v_f, v_g]
+        self.assertCountEqual(maximal_clique_7, expected_maximal_clique_7)
+
+        # Test least first argument
+        # Test least first argument
+        # self.find_maximal_clique(v_a, least_first=True)
+
+        # confirm random clique is a clique
+        # confirm random clique is a clique
+
+        # Should raise error if not passing vertex object for vertex parameter
+        with self.assertRaises(TypeError):
+            g.find_maximal_clique("A", least_first=False)
+        with self.assertRaises(TypeError):
+            g.find_maximal_clique("F")
+        # Shoud raise error if calling find_maximal_clique on directed graph
+        with self.assertRaises(TypeError):
+            g.directed = True
+            g.find_maximal_clique()
+        with self.assertRaises(TypeError):
+            a = Graph(weighted=False, directed=True)
+            a.add_vertex("A")
+            g.find_maximal_clique("A", least_first=False)
+        # Error should be raised when vertex not in graph
+        g.directed = False
+        v_y = Vertex("Y")
+        with self.assertRaises(ValueError):
+            g.find_maximal_clique(v_y)
+        v_z = Vertex("Z")
+        with self.assertRaises(ValueError):
+            g.find_maximal_clique(v_z, least_first=False)
 
 if __name__ == '__main__':
     unittest.main()
