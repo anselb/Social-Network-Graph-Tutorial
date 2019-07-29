@@ -609,12 +609,63 @@ class GraphTest(unittest.TestCase):
         expected_maximal_clique_7 = [v_a, v_b, v_c, v_d, v_e, v_f, v_g]
         self.assertCountEqual(maximal_clique_7, expected_maximal_clique_7)
 
-        # Test least first argument
-        # Test least first argument
-        # self.find_maximal_clique(v_a, least_first=True)
+        # Test least first argument (checks neighors in sorted order)
+        g = Graph(weighted=False, directed=False)
+        v_a = g.add_vertex('A')
+        v_b = g.add_vertex('B')
+        v_c = g.add_vertex('C')
+        v_d = g.add_vertex('D')
+        g.add_edge("B", "A")
+        g.add_edge("B", "C")
+        g.add_edge("B", "D")
+        g.add_edge("C", "D")
+        least_clique = g.find_maximal_clique(v_b, least_first=True)
+        # Vertex A is added to clique before Vertex C,
+        # Even though B, C, D is a bigger clique that A, B
+        expected_least_clique = [v_b, v_a]
+        self.assertCountEqual(least_clique, expected_least_clique)
+        # Test least first argument with numbers
+        g = Graph(weighted=False, directed=False)
+        v1 = g.add_vertex(1)
+        v2 = g.add_vertex(2)
+        v3 = g.add_vertex(3)
+        g.add_edge(2, 1)
+        g.add_edge(2, 3)
+        least_clique_2 = g.find_maximal_clique(v2, least_first=True)
+        # Vertex 1 is added to clique before Vertex 3
+        expected_least_clique_2 = [v2, v1]
+        self.assertCountEqual(least_clique_2, expected_least_clique_2)
 
-        # confirm random clique is a clique
-        # confirm random clique is a clique
+        # Create graph where Vertex B is in 4 different cliques
+        g = Graph(weighted=False, directed=False)
+        v_a = g.add_vertex('A')
+        v_b = g.add_vertex('B')
+        v_c = g.add_vertex('C')
+        v_d = g.add_vertex('D')
+        v_e = g.add_vertex('E')
+        # Clique 1 - B, A, C
+        g.add_edge("A", "B")
+        g.add_edge("A", "C")
+        g.add_edge("B", "C")
+        # Clique 2 - B, C, D
+        g.add_edge("B", "D")
+        g.add_edge("C", "D")
+        # Clique 3 - B, E, D
+        g.add_edge("B", "E")
+        g.add_edge("D", "E")
+        # Clique 4 - B, A, E
+        g.add_edge("A", "E")
+        # Test random clique is a clique
+        random_clique = g.find_maximal_clique()
+        if v_a in random_clique and v_c in random_clique:
+            expected_random_clique = [v_b, v_a, v_c]
+        if v_c in random_clique and v_d in random_clique:
+            expected_random_clique = [v_b, v_c, v_d]
+        if v_e in random_clique and v_d in random_clique:
+            expected_random_clique = [v_b, v_e, v_d]
+        if v_a in random_clique and v_e in random_clique:
+            expected_random_clique = [v_b, v_a, v_e]
+        self.assertCountEqual(random_clique, expected_random_clique)
 
         # Should raise error if not passing vertex object for vertex parameter
         with self.assertRaises(TypeError):
@@ -637,6 +688,7 @@ class GraphTest(unittest.TestCase):
         v_z = Vertex("Z")
         with self.assertRaises(ValueError):
             g.find_maximal_clique(v_z, least_first=False)
+
 
 if __name__ == '__main__':
     unittest.main()
